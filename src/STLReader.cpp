@@ -24,6 +24,9 @@ float xFlo;
 float yFlo;
 float zFlo;
 
+/**
+ * This will check values and print output to console
+ */
 int printAndCheck(){
 
 	if(maxX == NULL || xFlo > maxX){
