@@ -25,7 +25,8 @@ float yFlo;
 float zFlo;
 
 /**
- * This will check values and print output to console
+ * This function prints to the console as well as checks min/max values
+ * @return : nothing, not necessary for this method
  */
 int printAndCheck(){
 
@@ -56,6 +57,11 @@ int printAndCheck(){
 	return 0;
 }
 
+/**
+ * This function parses through an input file and calls printAndCheck
+ * @param inFile : the file to be parsed in a string format
+ * @return : 0 upon completion
+ */
 int parseFile(string inFile){
 	ifstream myFile;
 	myFile.open(inFile);
@@ -105,6 +111,11 @@ int parseFile(string inFile){
 		return 0;
 }
 
+/**
+ * main funcion - executes complete file read and console output
+ * @param argc : number of arguments passed
+ * @param argv : array of arguments passed
+ */
 int main (int argc, char *argv[]){
 
 	string greeting = "Input file to be parsed:";
