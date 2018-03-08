@@ -30,30 +30,28 @@ float zFlo;
  */
 int printAndCheck(){
 
-	if(maxX == NULL || xFlo > maxX){
+	//This upcoming large section is the check portion
+	if(maxX == 0 || xFlo > maxX){
 		maxX = xFlo;
 	}
-
-	if(minX == NULL || xFlo < minX){
+	if(minX == 0 || xFlo < minX){
 		minX = xFlo;
 	}
-
-	if(maxY == NULL || yFlo > maxY){
+	if(maxY == 0 || yFlo > maxY){
 		maxY = yFlo;
 	}
-
-	if(minY == NULL || yFlo < minY){
+	if(minY == 0 || yFlo < minY){
 		minY = yFlo;
 	}
-
-	if(maxZ == NULL || zFlo > maxZ){
+	if(maxZ == 0 || zFlo > maxZ){
 		maxZ = zFlo;
 	}
-
-	if(minZ == NULL){
+	if(minZ == 0 || zFlo < maxZ){
 		minZ = xFlo;
 	}
 
+	//This block is the print block
+	cout << "Facet " << total << ": vertX " << xFlo << ", vertY " << yFlo << ", vertZ " << zFlo << "/n/r";
 	return 0;
 }
 
@@ -78,6 +76,8 @@ int parseFile(string inFile){
 			getline(myFile, holder);
 			//if entering an outer loop space
 			if(holder.compare("outer loop")){
+				//increment total number of facets
+				total++;
 				//TODO: Scan one line, parse three digits, print to terminal
 				string dummy;
 				string vertX;
@@ -99,10 +99,6 @@ int parseFile(string inFile){
 
 				}
 					//TODO: may want to make a separate function for this - easier
-			}
-			//increment total number of facets
-			else if(holder.compare("endfacet")){
-				total++;
 			}
 		}
 
