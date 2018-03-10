@@ -18,7 +18,7 @@ int maxY;
 int minY;
 int maxZ;
 int minZ;
-int total;
+int total = 0;
 
 float xFlo;
 float yFlo;
@@ -51,7 +51,7 @@ int printAndCheck(){
 	}
 
 	//This block is the print block
-	cout << "Facet " << total << ": vertX " << xFlo << ", vertY " << yFlo << ", vertZ " << zFlo << "/n/r";
+	cout << "Facet " << total << ": vertX " << xFlo << ", vertY " << yFlo << ", vertZ " << zFlo << "\n\r";
 	return 0;
 }
 
@@ -65,45 +65,28 @@ int parseFile(string inFile){
 	myFile.open(inFile);
 
 		if(!myFile){
-			cerr << "Unable to open file " << inFile;
+			cerr << "Unable to open file " << inFile << "\n\r";
 			//loop back to the top at this point
 		}
+		else{
 
 		string holder;
+		string name;
+		getline(myFile, name, ' ');
+		getline(myFile, name);
+		cout << "name:" << name << "\n\r";
+
 		//as long as the input line is not "endsolid"
-		while(!holder.compare("endsolid")){
-			//read in a line from the file
-			getline(myFile, holder);
-			//if entering an outer loop space
-			if(holder.compare("outer loop")){
-				//increment total number of facets
+		while(getline(myFile, holder, ' ')){
+			cout << holder << "\n\r";
+			if(!holder.compare("outer")){
 				total++;
-				//TODO: Scan one line, parse three digits, print to terminal
-				string dummy;
-				string vertX;
-				string vertY;
-				string vertZ;
-				for (int i = 0; i < 3; i++){
-					//get words/number with space delimiter
-					getline(myFile, dummy, ' ');
-					getline(myFile, vertX, ' ');
-					getline(myFile, vertY, ' ');
-					//last number should be new line delimited
-					getline(myFile, vertZ);
-
-					xFlo = stof(vertX);
-					yFlo = stof(vertY);
-					zFlo = stof(vertZ);
-
-					printAndCheck();
-
-				}
-					//TODO: may want to make a separate function for this - easier
 			}
 		}
 
-		//close file - memory management.
 		myFile.close();
+		cout << "Total facets: " << total << "\n\r";
+		}
 		return 0;
 }
 
@@ -121,7 +104,7 @@ int main (int argc, char *argv[]){
 	cin >> fileToOpen;
 
 	parseFile(fileToOpen);
-
+	cout << "Made it past parseFile\n\r";
 }
 
 
