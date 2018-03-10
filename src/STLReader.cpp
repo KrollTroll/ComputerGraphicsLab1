@@ -83,14 +83,15 @@ int parseFile(string inFile){
 				getline(myFile, vertX, ' ');
 				getline(myFile, vertX, ' ');
 				getline(myFile, vertX, ' ');
+				xFlo = stof(vertX);
 				string vertY;
 				getline(myFile, vertY, ' ');
-				//getline(myFile, vertY, ' ');
+				yFlo = stof(vertY);
 				string vertZ;
-				//getline(myFile, vertZ, ' ');
 				getline(myFile, vertZ);
+				zFlo = stof(vertZ);
 
-				cout << vertX << " " << vertY << " " << vertZ <<"\n\r";
+				cout << xFlo << " " << yFlo << " " << zFlo <<"\n\r";
 			}
 		}
 
