@@ -71,16 +71,26 @@ int parseFile(string inFile){
 		else{
 
 		string holder;
-		string name;
-		getline(myFile, name, ' ');
-		getline(myFile, name);
-		cout << "name:" << name << "\n\r";
 
-		//as long as the input line is not "endsolid"
+		//as long as there is more in the file
 		while(getline(myFile, holder, ' ')){
-			cout << holder << "\n\r";
+			//cout << holder << "\n\r";
 			if(!holder.compare("outer")){
 				total++;
+			}
+			else if(!holder.compare("vertex")){
+				string vertX;
+				getline(myFile, vertX, ' ');
+				getline(myFile, vertX, ' ');
+				getline(myFile, vertX, ' ');
+				string vertY;
+				getline(myFile, vertY, ' ');
+				//getline(myFile, vertY, ' ');
+				string vertZ;
+				//getline(myFile, vertZ, ' ');
+				getline(myFile, vertZ);
+
+				cout << vertX << " " << vertY << " " << vertZ <<"\n\r";
 			}
 		}
 
