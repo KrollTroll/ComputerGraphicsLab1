@@ -51,7 +51,7 @@ int printAndCheck(){
 	}
 
 	//This block is the print block
-	cout << "Facet " << total << ": vertX " << xFlo << ", vertY " << yFlo << ", vertZ " << zFlo << "\n\r";
+	cout << "Facet " << total << ": vertX = " << xFlo << ", vertY = " << yFlo << ", vertZ = " << zFlo << "\n";
 	return 0;
 }
 
@@ -65,38 +65,48 @@ int parseFile(string inFile){
 	myFile.open(inFile);
 
 		if(!myFile){
-			cerr << "Unable to open file " << inFile << "\n\r";
+			cerr << "Unable to open file " << inFile << "\n";
 			//loop back to the top at this point
 		}
 		else{
 
-		string holder;
+			string holder;
+			int vertT = 0;
+			bool vertComplete = false;
 
-		//as long as there is more in the file
-		while(getline(myFile, holder, ' ')){
-			//cout << holder << "\n\r";
-			if(!holder.compare("outer")){
-				total++;
-			}
-			else if(!holder.compare("vertex")){
-				string vertX;
-				getline(myFile, vertX, ' ');
-				getline(myFile, vertX, ' ');
-				getline(myFile, vertX, ' ');
-				xFlo = stof(vertX);
-				string vertY;
-				getline(myFile, vertY, ' ');
-				yFlo = stof(vertY);
-				string vertZ;
-				getline(myFile, vertZ);
-				zFlo = stof(vertZ);
+			//as long as there is more in the file
+			while(getline(myFile, holder, ' ')){
+				//cout << holder << "\n\r";
+				if(!holder.compare("outer")){
+					total++;
+				}
+				else if(!holder.compare("vertex")){
+					string vertX;
+					getline(myFile, vertX, ' ');
+					getline(myFile, vertX, ' ');
+					getline(myFile, vertX, ' ');
+					xFlo = stof(vertX);
+					string vertY;
+					getline(myFile, vertY, ' ');
+					yFlo = stof(vertY);
+					string vertZ;
+					getline(myFile, vertZ);
+					zFlo = stof(vertZ);
+					vertT++;
+					if(vertT == 3){
+						vertComplete = true;
+					}
+				}
 
-				cout << xFlo << " " << yFlo << " " << zFlo <<"\n\r";
-			}
+				if(vertComplete){
+					printAndCheck();
+					vertT = 0;
+					vertComplete = false;
+				}
 		}
 
 		myFile.close();
-		cout << "Total facets: " << total << "\n\r";
+		cout << "Total facets: " << total << "\n";
 		}
 		return 0;
 }
@@ -115,7 +125,8 @@ int main (int argc, char *argv[]){
 	cin >> fileToOpen;
 
 	parseFile(fileToOpen);
-	cout << "Made it past parseFile\n\r";
+
+	//TODO:MINMAX SHIZZ
 }
 
 
