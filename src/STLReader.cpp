@@ -23,12 +23,12 @@ int total = 0;
 float xFlo;
 float yFlo;
 float zFlo;
+bool validFile = false;
 
 /**
  * This function prints to the console as well as checks min/max values
- * @return : nothing, not necessary for this method
  */
-int printAndCheck(){
+void printAndCheck(){
 
 	//This upcoming large section is the check portion
 	if(maxX == 0 || xFlo > maxX){
@@ -52,9 +52,11 @@ int printAndCheck(){
 
 	//This block is the print block
 	cout << "Facet " << total << ": vertX = " << xFlo << ", vertY = " << yFlo << ", vertZ = " << zFlo << "\n";
-	return 0;
 }
 
+/**
+ * prints out the minimum and maximum vertices for the file
+ */
 void minMax(){
 	cout << "\nMIN/MAX VERTICES:\n\n";
 	cout << "MIN X: " << minX << "\nMAX X: " << maxX << "\n\n";
@@ -67,17 +69,18 @@ void minMax(){
 /**
  * This function parses through an input file and calls printAndCheck
  * @param inFile : the file to be parsed in a string format
- * @return : 0 upon completion
  */
-int parseFile(string inFile){
+void parseFile(string inFile){
 	ifstream myFile;
 	myFile.open(inFile);
 
 		if(!myFile){
-			cerr << "Unable to open file " << inFile << "\n";
-			//loop back to the top at this point
+			cerr << "Unable to open file " << inFile << ", please input a valid file:";
+			validFile = false;
 		}
 		else{
+
+			validFile = true;
 
 			string holder;
 			int vertT = 0;
@@ -116,7 +119,6 @@ int parseFile(string inFile){
 
 		myFile.close();
 		}
-		return 0;
 }
 
 /**
@@ -126,15 +128,20 @@ int parseFile(string inFile){
  */
 int main (int argc, char *argv[]){
 
-	string greeting = "Input file to be parsed:";
 	string fileToOpen;
 
-	cout << greeting;
-	cin >> fileToOpen;
+	cout << "Input file to be parsed:";
 
-	parseFile(fileToOpen);
+	while(!validFile){
+		cin >> fileToOpen;
 
-	minMax();
+		parseFile(fileToOpen);
+
+		if(validFile){
+			minMax();
+		}
+	}
+	return 0;
 }
 
 
