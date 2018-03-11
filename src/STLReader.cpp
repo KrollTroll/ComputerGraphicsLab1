@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 using namespace std;
@@ -23,6 +24,7 @@ int total = 0;
 float xFlo;
 float yFlo;
 float zFlo;
+bool initialized = false;
 bool validFile = false;
 
 /**
@@ -31,27 +33,29 @@ bool validFile = false;
 void printAndCheck(){
 
 	//This upcoming large section is the check portion
-	if(maxX == 0 || xFlo > maxX){
+	if(xFlo > maxX){
 		maxX = xFlo;
 	}
-	if(minX == 0 || xFlo < minX){
+	else if(xFlo < minX){
 		minX = xFlo;
 	}
-	if(maxY == 0 || yFlo > maxY){
+
+	if(yFlo > maxY){
 		maxY = yFlo;
 	}
-	if(minY == 0 || yFlo < minY){
+	else if(yFlo < minY){
 		minY = yFlo;
 	}
-	if(maxZ == 0 || zFlo > maxZ){
+
+	else if(zFlo > maxZ){
 		maxZ = zFlo;
 	}
-	if(minZ == 0 || zFlo < maxZ){
+	if(zFlo < maxZ){
 		minZ = xFlo;
 	}
 
 	//This block is the print block
-	cout << "Facet " << total << ": vertX = " << xFlo << ", vertY = " << yFlo << ", vertZ = " << zFlo << "\n";
+	cout << "Facet " << total << ": vertX = " << setw(9) << xFlo << ",\t vertY = " << setw(9) << yFlo << ", \tvertZ = " << zFlo << "\n";
 }
 
 /**
@@ -75,7 +79,7 @@ void parseFile(string inFile){
 	myFile.open(inFile);
 
 		if(!myFile){
-			cerr << "Unable to open file " << inFile << ", please input a valid file:";
+			cerr << "\n**Unable to open file " << inFile << "**\n**File may be missing, incorrect format, or corrupted**\n\n";
 			validFile = false;
 		}
 		else{
@@ -105,8 +109,19 @@ void parseFile(string inFile){
 					getline(myFile, vertZ);
 					zFlo = stof(vertZ);
 					vertT++;
+
 					if(vertT == 3){
 						vertComplete = true;
+					}
+
+					if(!initialized){
+						maxX = xFlo;
+						minX = xFlo;
+						maxY = yFlo;
+						minY = yFlo;
+						maxZ = zFlo;
+						minZ = zFlo;
+						initialized = true;
 					}
 				}
 
@@ -128,18 +143,15 @@ void parseFile(string inFile){
  */
 int main (int argc, char *argv[]){
 
-	string fileToOpen;
-
-	cout << "Input file to be parsed:";
-
-	while(!validFile){
-		cin >> fileToOpen;
-
-		parseFile(fileToOpen);
+	if(argc == 2){
+		parseFile(argv[1]);
 
 		if(validFile){
 			minMax();
 		}
+	}
+	else{
+		cerr << "\n**      Invalid program arguments!      **\n**Please use a valid .stl file as input!**\n\n";
 	}
 	return 0;
 }
