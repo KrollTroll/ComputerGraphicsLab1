@@ -12,12 +12,12 @@
 #include <string>
 using namespace std;
 
-int maxX;
-int minX;
-int maxY;
-int minY;
-int maxZ;
-int minZ;
+float maxX;
+float minX;
+float maxY;
+float minY;
+float maxZ;
+float minZ;
 int total = 0;
 
 float xFlo;
@@ -53,6 +53,15 @@ int printAndCheck(){
 	//This block is the print block
 	cout << "Facet " << total << ": vertX = " << xFlo << ", vertY = " << yFlo << ", vertZ = " << zFlo << "\n";
 	return 0;
+}
+
+void minMax(){
+	cout << "\nMIN/MAX VERTICES:\n\n";
+	cout << "MIN X: " << minX << "\nMAX X: " << maxX << "\n\n";
+	cout << "MIN Y: " << minY << "\nMAX Y: " << maxY << "\n\n";
+	cout << "MIN Z: " << minZ << "\nMAX Z: " << maxZ << "\n\n";
+	cout << "TOTAL FACETS: " << total << "\n";
+
 }
 
 /**
@@ -106,7 +115,6 @@ int parseFile(string inFile){
 		}
 
 		myFile.close();
-		cout << "Total facets: " << total << "\n";
 		}
 		return 0;
 }
@@ -126,7 +134,7 @@ int main (int argc, char *argv[]){
 
 	parseFile(fileToOpen);
 
-	//TODO:MINMAX SHIZZ
+	minMax();
 }
 
 
