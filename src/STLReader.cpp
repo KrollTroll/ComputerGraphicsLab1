@@ -3,6 +3,8 @@
  *
  *  Created on: Mar 7, 2018
  *      Author: ckroll
+ *
+ *      This is a lab for computer graphics that parses STL files
  */
 
 #include <cstdlib>
@@ -55,7 +57,10 @@ void printAndCheck(){
 	}
 
 	//This block is the print block
-	cout << "Facet " << total << ": vertX = " << setw(9) << xFlo << ",\t vertY = " << setw(9) << yFlo << ", \tvertZ = " << zFlo << "\n";
+	cout << "Facet " << total;
+	cout << ": vertX = " << setw(9) << xFlo;
+	cout << ",\t vertY = " << setw(9) << yFlo;
+	cout << ", \tvertZ = " << zFlo << "\n";
 }
 
 /**
@@ -78,12 +83,15 @@ void parseFile(string inFile){
 	ifstream myFile;
 	myFile.open(inFile);
 
+		//Print error if file does not open for whatever reason
 		if(!myFile){
-			cerr << "\n**Unable to open file " << inFile << "**\n**File may be missing, incorrect format, or corrupted**\n\n";
+			cerr << "\n**Unable to open file " << inFile;
+			cout << "**\n**File may be missing, incorrect format, or corrupted**\n\n";
 			validFile = false;
 		}
+		//If the file is valid
 		else{
-
+			//boolean switch for later logic
 			validFile = true;
 
 			string holder;
@@ -92,10 +100,12 @@ void parseFile(string inFile){
 
 			//as long as there is more in the file
 			while(getline(myFile, holder, ' ')){
-				//cout << holder << "\n\r";
+				//if entering an outer loop
 				if(!holder.compare("outer")){
+					//increment the total number of facets
 					total++;
 				}
+				//if entering a vertex range
 				else if(!holder.compare("vertex")){
 					string vertX;
 					getline(myFile, vertX, ' ');
@@ -110,10 +120,12 @@ void parseFile(string inFile){
 					zFlo = stof(vertZ);
 					vertT++;
 
+					//boolean switch when 3 vertices are found
 					if(vertT == 3){
 						vertComplete = true;
 					}
 
+					//initialize min and max if they haven't been
 					if(!initialized){
 						maxX = xFlo;
 						minX = xFlo;
@@ -125,6 +137,7 @@ void parseFile(string inFile){
 					}
 				}
 
+				//output once all vertices found
 				if(vertComplete){
 					printAndCheck();
 					vertT = 0;
@@ -132,6 +145,7 @@ void parseFile(string inFile){
 				}
 		}
 
+		//close file to save memory
 		myFile.close();
 		}
 }
@@ -143,15 +157,21 @@ void parseFile(string inFile){
  */
 int main (int argc, char *argv[]){
 
+	//as long as two arguments are entered
 	if(argc == 2){
+		//pass in second argument as file name
 		parseFile(argv[1]);
 
+		//if the file is valid
 		if(validFile){
+			//output min/max once done parsing
 			minMax();
 		}
 	}
+	//otherwise print error
 	else{
-		cerr << "\n**      Invalid program arguments!      **\n**Please use a valid .stl file as input!**\n\n";
+		cerr << "\n**      Invalid program arguments!      **";
+		cout << "\n**Please use a valid .stl file as input!**\n\n";
 	}
 	return 0;
 }
