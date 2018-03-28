@@ -23,16 +23,13 @@ float maxZ;
 float minZ;
 int total = 0;
 
-float xFlo;
-float yFlo;
-float zFlo;
 bool initialized = false;
 bool validFile = false;
 
 /**
- * This function prints to the console as well as checks min/max values
+ * This function checks min/max values
  */
-void printAndCheck(){
+void checkMax(float xFlo, float yFlo, float zFlo){
 
 	//This upcoming large section is the check portion
 	if(xFlo > maxX){
@@ -55,24 +52,28 @@ void printAndCheck(){
 	else if(zFlo < maxZ){
 		minZ = xFlo;
 	}
+}
 
+/**
+ * This method prints the min/max
+ */
+void printVert(float xFlo, float yFlo, float zFlo, int vertT){
 	//This block is the print block
-	cout << "Facet " << total;
-	cout << ": vertX = " << setw(9) << xFlo;
-	cout << ",\t vertY = " << setw(9) << yFlo;
-	cout << ", \tvertZ = " << zFlo << "\n";
+	cout << "Facet " << total << " Vertex " << vertT;
+	cout << ": vertX=" << setw(8) << xFlo;
+	cout << ",\tvertY=" << setw(8) << yFlo;
+	cout << ",   vertZ=" << zFlo << "\n";
 }
 
 /**
  * prints out the minimum and maximum vertices for the file
  */
-void minMax(){
+void printMinMax(){
 	cout << "\nMIN/MAX VERTICES:\n\n";
 	cout << "MIN X: " << minX << "\nMAX X: " << maxX << "\n\n";
 	cout << "MIN Y: " << minY << "\nMAX Y: " << maxY << "\n\n";
 	cout << "MIN Z: " << minZ << "\nMAX Z: " << maxZ << "\n\n";
 	cout << "TOTAL FACETS: " << total << "\n";
-
 }
 
 /**
@@ -80,6 +81,10 @@ void minMax(){
  * @param inFile : the file to be parsed in a string format
  */
 void parseFile(string inFile){
+	float xFlo;
+	float yFlo;
+	float zFlo;
+	int vertT = 0;
 	ifstream myFile;
 	myFile.open(inFile);
 
@@ -95,7 +100,6 @@ void parseFile(string inFile){
 			validFile = true;
 
 			string holder;
-			int vertT = 0;
 			bool vertComplete = false;
 
 			//as long as there is more in the file
@@ -128,11 +132,7 @@ void parseFile(string inFile){
 
 					//it's screwing up here, this is causing it to only print every third
 					vertT++;
-
-					//boolean switch when 3 vertices are found
-					if(vertT == 3){
-						vertComplete = true;
-					}
+					vertComplete = true;
 
 					//initialize min and max if they haven't been
 					if(!initialized){
@@ -148,9 +148,12 @@ void parseFile(string inFile){
 
 				//output once all vertices found
 				if(vertComplete){
-					//printAndCheck();
-					vertT = 0;
+					checkMax(xFlo, yFlo, zFlo);
+					printVert(xFlo, yFlo, zFlo, vertT);
 					vertComplete = false;
+					if(vertT == 3){
+						vertT = 0;
+					}
 				}
 		}
 
@@ -174,7 +177,7 @@ int main (int argc, char *argv[]){
 		//if the file is valid
 		if(validFile){
 			//output min/max once done parsing
-			minMax();
+			printMinMax();
 		}
 	}
 	//otherwise print error
