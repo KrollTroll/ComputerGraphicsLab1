@@ -49,10 +49,10 @@ void printAndCheck(){
 		minY = yFlo;
 	}
 
-	else if(zFlo > maxZ){
+	if(zFlo > maxZ){
 		maxZ = zFlo;
 	}
-	if(zFlo < maxZ){
+	else if(zFlo < maxZ){
 		minZ = xFlo;
 	}
 
@@ -106,18 +106,27 @@ void parseFile(string inFile){
 					total++;
 				}
 				//if entering a vertex range
-				else if(!holder.compare("vertex")){
+				if(!holder.compare("vertex")){
 					string vertX;
 					getline(myFile, vertX, ' ');
-					getline(myFile, vertX, ' ');
-					getline(myFile, vertX, ' ');
+					while(!vertX.compare("")){
+						getline(myFile, vertX, ' ');
+					}
 					xFlo = stof(vertX);
 					string vertY;
 					getline(myFile, vertY, ' ');
+					while(!vertY.compare("")){
+						getline(myFile, vertY, ' ');
+					}
 					yFlo = stof(vertY);
 					string vertZ;
-					getline(myFile, vertZ);
+					getline(myFile, vertZ, ' ');
+					while(!vertZ.compare("")){
+						getline(myFile, vertZ, ' ');
+					}
 					zFlo = stof(vertZ);
+
+					//it's screwing up here, this is causing it to only print every third
 					vertT++;
 
 					//boolean switch when 3 vertices are found
@@ -139,7 +148,7 @@ void parseFile(string inFile){
 
 				//output once all vertices found
 				if(vertComplete){
-					printAndCheck();
+					//printAndCheck();
 					vertT = 0;
 					vertComplete = false;
 				}

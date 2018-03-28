@@ -20,7 +20,7 @@ solid ascii
       vertex   -1.626408e+001 4.791331e+001 5.000000e+000
     endloop
   endfacet
-  facet normal 9.472428e-001 -3.205168e-001 3.384458e-004
+else  facet normal 9.472428e-001 -3.205168e-001 3.384458e-004
     outer loop
       vertex   -1.625171e+001 4.795515e+001 1.000000e+001
       vertex   -1.626408e+001 4.791331e+001 5.000000e+000
